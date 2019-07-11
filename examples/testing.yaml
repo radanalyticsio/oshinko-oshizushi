@@ -1,0 +1,9 @@
+apiVersion: elmiko.dev/v1alpha1
+kind: OshinkoApplication
+metadata:
+  name: sparkpi
+spec:
+  build-type: python27
+  git-uri: https://github.com/radanalyticsio/tutorial-sparkpi-python-flask.git
+  spark-options: "--conf spark.driver.bindAddress=sparkpi-headless"
+

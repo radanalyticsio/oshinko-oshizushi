@@ -3,5 +3,6 @@ kind: OshinkoApplication
 metadata:
   name: example-oshinkoapplication
 spec:
-  # Add fields here
-  size: 3
+  build-type: python27
+  git-uri: https://github.com/radanalyticsio/tutorial-sparkpi-python-flask.git 
+

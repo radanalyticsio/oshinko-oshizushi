@@ -1,2 +1,13 @@
 ---
 # vars file for oshinkoapplication
+state: "present"
+size: 1
+context_dir: "/"
+git_ref: null
+oshinko_cluster_name: null
+app_args: null
+spark_options: null
+delete_cluster: "true"
+app_exit: "true"
+cluster_config: null
+driver_config: null

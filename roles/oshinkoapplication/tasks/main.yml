@@ -98,7 +98,7 @@
               - name: APP_ARGS
                 value: "{{ app_args }}"
               - name: SPARK_OPTIONS
-                value: "{{ spark_options }}"
+                value: "{{ spark_options|join(' ') }}"
               - name: OSHINKO_DEL_CLUSTER
                 value: "{{ delete_cluster }}"
               - name: APP_EXIT

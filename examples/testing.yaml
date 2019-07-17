@@ -3,7 +3,10 @@ kind: OshinkoApplication
 metadata:
   name: sparkpi
 spec:
-  build-type: python27
-  git-uri: https://github.com/radanalyticsio/tutorial-sparkpi-python-flask.git
-  spark-options: "--conf spark.driver.bindAddress=sparkpi-headless"
+  build-type: "python27"
+  git-uri: "https://github.com/radanalyticsio/tutorial-sparkpi-python-flask.git"
+  spark-options:
+    - "--conf spark.driver.bindAddress=0.0.0.0"
+    - "--conf spark.driver.blockManager.port=7079"
+    - "--conf spark.driver.port=7078"
 

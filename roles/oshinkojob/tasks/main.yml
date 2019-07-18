@@ -1,0 +1,16 @@
+---
+- name: create imagestream
+  k8s:
+    state: "{{ state }}"
+    definition:
+      apiVersion: image.openshift.io/v1
+      kind: ImageStream
+      metadata:
+        name: "{{ meta.name }}"
+        namespace: "{{ meta.namespace }}"
+        labels:
+          app: "{{ meta.name }}"
+      spec:
+        dockerImageRepository: "{{ meta.name }}"
+        tags:
+          - name: latest

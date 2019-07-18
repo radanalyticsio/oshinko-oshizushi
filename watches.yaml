@@ -3,3 +3,7 @@
   group: elmiko.dev
   kind: OshinkoApplication
   role: /opt/ansible/roles/oshinkoapplication
+- version: v1alpha1
+  group: elmiko.dev
+  kind: OshinkoJob
+  role: /opt/ansible/roles/oshinkojob

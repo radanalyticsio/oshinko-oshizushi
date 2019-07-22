@@ -53,7 +53,7 @@
                 value: "{{ app_file | default('app.py') }}"
             from:
               kind: DockerImage
-              name: docker.io/radanalyticsio/radanalytics-pyspark:stable
+              name: "{{ build_image }}"
           type: Source
         triggers:
         - imageChange: {}
@@ -107,6 +107,8 @@
                 value: "{{ cluster_config }}"
               - name: OSHINKO_SPARK_DRIVER_CONFIG
                 value: "{{ driver_config }}"
+              - name: SPARK_URL_OVERRIDE
+                value: "{{ spark_url_override }}"
               - name: POD_NAME
                 valueFrom:
                   fieldRef:

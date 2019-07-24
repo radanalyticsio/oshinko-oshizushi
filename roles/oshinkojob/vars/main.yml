@@ -1,3 +1,18 @@
 ---
 # vars file for oshinkojob
 state: "present"
+context_dir: "/"
+git_ref: null
+executors: 1
+completions: 1
+oshinko_cluster_name: null
+app_args: null
+spark_options: null
+app_main_class: null
+delete_cluster: "true"
+app_exit: "true"
+cluster_config: null
+driver_config: null
+spark_url_override: null
+build_image: "docker.io/radanalyticsio/radanalytics-pyspark:stable"
+delete_job: false

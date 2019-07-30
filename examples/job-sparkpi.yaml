@@ -1,0 +1,12 @@
+apiVersion: elmiko.dev/v1alpha1
+kind: OshinkoJob
+metadata:
+  name: sparkpi
+spec:
+  build-type: "python27"
+  build-image: "quay.io/elmiko/radanalytics-pyspark:override-cluster-check"
+  git-uri: "https://github.com/elmiko/sparkpi-job.git"
+  spark-options:
+    - "--conf spark.driver.bindAddress=0.0.0.0"
+    - "--conf spark.driver.blockManager.port=7079"
+    - "--conf spark.driver.port=7078"

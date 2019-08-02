@@ -1,7 +1,0 @@
-apiVersion: elmiko.dev/v1alpha1
-kind: OshinkoJob
-metadata:
-  name: example-oshinkojob
-spec:
-  # Add fields here
-  size: 3

@@ -1,8 +1,0 @@
-apiVersion: elmiko.dev/v1alpha1
-kind: OshinkoApplication
-metadata:
-  name: example-oshinkoapplication
-spec:
-  build-type: python27
-  git-uri: https://github.com/radanalyticsio/tutorial-sparkpi-python-flask.git 
-

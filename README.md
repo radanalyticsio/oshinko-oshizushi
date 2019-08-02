@@ -17,19 +17,19 @@ Spark based Deployments and Jobs within OpenShift.
 **Procedure**
 
 1. Install the custom resource definitions.
-```
-oc apply -f deploy/crds
-```
+   ```
+   oc apply -f deploy/crds
+   ```
 
 1. Install the operator.
-```
-oc apply -f deploy
-```
+   ```
+   oc apply -f deploy
+   ```
 
 1. Create an application.
-```
-oc apply -f examples/sparkpi-application.yaml
-```
+   ```
+   oc apply -f examples/sparkpi-application.yaml
+   ```
 
 You should now see the operator creating an ImageStream, Build, and Deployment
 for the application. You will also see a Spark cluster being deployed.

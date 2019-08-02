@@ -12,3 +12,4 @@ app_exit: "true"
 cluster_config: null
 driver_config: null
 build_image: "docker.io/radanalyticsio/radanalytics-pyspark:stable"
+spark_url_override: null

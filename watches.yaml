@@ -1,9 +1,9 @@
 ---
 - version: v1alpha1
-  group: elmiko.dev
+  group: radanalytics.io
   kind: OshinkoApplication
   role: /opt/ansible/roles/oshinkoapplication
 - version: v1alpha1
-  group: elmiko.dev
+  group: radanalytics.io
   kind: OshinkoJob
   role: /opt/ansible/roles/oshinkojob

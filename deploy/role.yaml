@@ -41,7 +41,7 @@ rules:
   verbs:
   - update
 - apiGroups:
-  - elmiko.dev
+  - radanalytics.io
   resources:
   - '*'
   - oshinkojobs

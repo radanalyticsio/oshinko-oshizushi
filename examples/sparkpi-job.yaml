@@ -1,4 +1,4 @@
-apiVersion: elmiko.dev/v1alpha1
+apiVersion: radanalytics.io/v1alpha1
 kind: OshinkoJob
 metadata:
   name: sparkpi

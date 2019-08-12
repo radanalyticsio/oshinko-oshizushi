@@ -1,14 +1,14 @@
 ---
 - name: determine job completion
   vars:
-    job: "{{ lookup('k8s', kind='Job',
+    job: "{{ lookup('k8s', kind='Job', api_version='batch/v1',
                      namespace=meta.namespace, resource_name=meta.name) }}"
   when: (job.status.succeeded | default(0) == completions) and (state == "present")
   set_fact:
     job_completed: true
 
 - name: create spark cluster
-  when: (state == "present") and (job_completed | default(false) == false)
+  when: (state == "present") and (job_completed | default(false) == false) and (spark_url_override == None)
   k8s:
     state: "{{ state }}"
     definition:
@@ -43,6 +43,7 @@
   when: state == "present"
   vars:
     imagestream: "{{ lookup('k8s', kind='ImageStream',
+                     api_version='image.openshift.io/v1',
                      namespace=meta.namespace, resource_name=meta.name) }}"
   set_fact:
     imagestream_repository: "{{ imagestream.status.dockerImageRepository }}"
@@ -92,7 +93,7 @@
 
 - name: determine build completion
   vars:
-    build: "{{ lookup('k8s', kind='Build',
+    build: "{{ lookup('k8s', kind='Build', api_version='build.openshift.io/v1',
                      namespace=meta.namespace, resource_name=meta.name+'-1') }}"
   when: (build.status.phase == "Complete") and (state == "present")
   set_fact:
@@ -146,7 +147,7 @@
               - name: OSHINKO_SPARK_DRIVER_CONFIG
                 value: "{{ driver_config }}"
               - name: SPARK_URL_OVERRIDE
-                value: "spark://{{ meta.name }}-spark:7077"
+                value: "{{ spark_url_override| default('spark://'+meta.name+'-spark:7077') }}"
               - name: POD_NAME
                 valueFrom:
                   fieldRef:
@@ -191,7 +192,7 @@
           app: "{{ meta.name }}"
 
 - name: delete spark cluster
-  when: job_completed | default(false) == true
+  when: (job_completed | default(false) == true) and (spark_url_override == None)
   k8s:
     state: "absent"
     definition:

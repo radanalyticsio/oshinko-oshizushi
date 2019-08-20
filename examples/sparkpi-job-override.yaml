@@ -1,0 +1,13 @@
+apiVersion: radanalytics.io/v1alpha1
+kind: OshinkoJob
+metadata:
+  name: sparkpi
+spec:
+  build-type: "python27"
+  build-image: "quay.io/radanalyticsio/oshinko-s2i-pyspark:latest"
+  git-uri: "https://github.com/elmiko/sparkpi-job.git"
+  spark-url-override: "spark://my-spark-cluster:7077"
+  spark-options:
+    - "--conf spark.driver.bindAddress=0.0.0.0"
+    - "--conf spark.driver.blockManager.port=7079"
+    - "--conf spark.driver.port=7078"

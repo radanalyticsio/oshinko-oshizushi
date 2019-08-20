@@ -147,7 +147,7 @@
               - name: OSHINKO_SPARK_DRIVER_CONFIG
                 value: "{{ driver_config }}"
               - name: SPARK_URL_OVERRIDE
-                value: "{{ spark_url_override| default('spark://'+meta.name+'-spark:7077') }}"
+                value: "{% if spark_url_override == None %}spark://{{ meta.name }}-spark:7077{% else %}{{ spark_url_override }}{% endif %}"
               - name: POD_NAME
                 valueFrom:
                   fieldRef:

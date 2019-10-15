@@ -1,0 +1,40 @@
+{% if build_type == 'python' or build_type == 'python27' %}
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+name: "{{ meta.name }}"
+namespace: "{{ meta.namespace }}"
+labels:
+  app: "{{ meta.name }}"
+spec:
+output:
+  to:
+    kind: ImageStreamTag
+    name: "{{ meta.name }}:latest"
+source:
+  contextDir: "{{ context_dir }}"
+  git:
+    ref: "{{ git_ref }}"
+    uri: "{{ git_uri }}"
+  type: Git
+strategy:
+  sourceStrategy:
+    env:
+      - name: APP_FILE
+        value: "{{ app_file | default('app.py') }}"
+    from:
+      kind: DockerImage
+      name: "{{ build_image }}"
+  type: Source
+triggers:
+- imageChange: {}
+  type: ImageChange
+- type: ConfigChange
+- github:
+    secret: "{{ meta.name }}"
+  type: GitHub
+- generic:
+    secret: "{{ meta.name }}"
+  type: Generic
+{% else %}
+{% endif %}

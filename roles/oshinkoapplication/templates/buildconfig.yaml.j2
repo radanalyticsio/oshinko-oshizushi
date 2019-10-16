@@ -23,10 +23,14 @@ spec:
         - name: APP_FILE
 {% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
           value: "{{ app_file | default('app.py') }}"
-{% elif (build_type|lower == 'java') %}
-          value: "{{ app_file }}"
 {% else %}
-          value: ""
+          value: "{{ app_file }}"
+{% endif %}
+{% if build_type|lower == 'scala' %}
+        - name: SBT_ARGS
+          value: "{{ sbt_args }}"
+        - name: SBT_ARGS_APPEND
+          value: "{{ sbt_args_append }}"
 {% endif %}
       from:
         kind: DockerImage
@@ -34,6 +38,8 @@ spec:
         name: "docker.io/radanalyticsio/radanalytics-pyspark:stable"
 {% elif (build_type|lower == 'java') %}
         name: "docker.io/radanalyticsio/radanalytics-java-spark:stable"
+{% elif (build_type|lower == 'scala') %}
+        name: "docker.io/radanalyticsio/radanalytics-scala-spark:stable"
 {% else %}
         name: "{{ build_image }}"
 {% endif %}

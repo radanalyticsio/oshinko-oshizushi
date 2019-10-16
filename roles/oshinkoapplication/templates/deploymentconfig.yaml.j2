@@ -28,7 +28,7 @@ spec:
           value: "{{ app_args }}"
         - name: SPARK_OPTIONS
           value: "{{ spark_options|join(' ') }}"
-{% if (build_type|lower == 'java') %}
+{% if (build_type|lower == 'java') or (build_type|lower == 'scala') %}
         - name: APP_MAIN_CLASS
           value: "{{ app_main_class }}"
 {% endif %}

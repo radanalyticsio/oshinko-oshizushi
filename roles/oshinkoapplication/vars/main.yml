@@ -14,3 +14,6 @@ driver_config: null
 build_image: null
 spark_url_override: null
 app_main_class: null
+app_file: null
+sbt_args: null
+sbt_args_append: null

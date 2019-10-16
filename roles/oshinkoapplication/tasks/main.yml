@@ -28,7 +28,16 @@
     state: "{{ state }}"
     definition: "{{ lookup('template', 'buildconfig.yaml.j2') }}"
 
+- name: determine build completion
+  vars:
+    build: "{{ lookup('k8s', kind='Build', api_version='build.openshift.io/v1',
+                     namespace=meta.namespace, resource_name=meta.name+'-1') }}"
+  when: (build.status.phase == "Complete") and (state == "present")
+  set_fact:
+    build_completed: true
+
 - name: create deploymentconfig
+  when: (state == "present") and (build_completed | default(false) == true)
   k8s:
     state: "{{ state }}"
     definition: "{{ lookup('template', 'deploymentconfig.yaml.j2') }}"

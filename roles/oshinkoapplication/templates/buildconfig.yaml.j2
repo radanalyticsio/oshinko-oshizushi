@@ -1,5 +1,4 @@
 ---
-{% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
@@ -22,10 +21,22 @@ spec:
     sourceStrategy:
       env:
         - name: APP_FILE
+{% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
           value: "{{ app_file | default('app.py') }}"
+{% elif (build_type|lower == 'java') %}
+          value: "{{ app_file }}"
+{% else %}
+          value: ""
+{% endif %}
       from:
         kind: DockerImage
+{% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
+        name: "docker.io/radanalyticsio/radanalytics-pyspark:stable"
+{% elif (build_type|lower == 'java') %}
+        name: "docker.io/radanalyticsio/radanalytics-java-spark:stable"
+{% else %}
         name: "{{ build_image }}"
+{% endif %}
     type: Source
   triggers:
   - imageChange: {}
@@ -37,5 +48,3 @@ spec:
   - generic:
       secret: "{{ meta.name }}"
     type: Generic
-{% else %}
-{% endif %}

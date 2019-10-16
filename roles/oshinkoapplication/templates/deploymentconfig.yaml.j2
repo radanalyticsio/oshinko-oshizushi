@@ -1,5 +1,4 @@
 ---
-{% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
 metadata:
@@ -29,6 +28,10 @@ spec:
           value: "{{ app_args }}"
         - name: SPARK_OPTIONS
           value: "{{ spark_options|join(' ') }}"
+{% if (build_type|lower == 'java') %}
+        - name: APP_MAIN_CLASS
+          value: "{{ app_main_class }}"
+{% endif %}
         - name: OSHINKO_DEL_CLUSTER
           value: "{{ delete_cluster }}"
         - name: APP_EXIT
@@ -60,5 +63,3 @@ spec:
               fieldPath: metadata.labels
             path: labels
         name: podinfo
-{% else %}
-{% endif %}

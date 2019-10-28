@@ -48,48 +48,10 @@
   set_fact:
     imagestream_repository: "{{ imagestream.status.dockerImageRepository }}"
 
-- name: create python27 buildconfig
-  when: (build_type|lower == 'python') or (build_type|lower == 'python27')
+- name: create buildconfig
   k8s:
     state: "{{ state }}"
-    definition:
-      apiVersion: build.openshift.io/v1
-      kind: BuildConfig
-      metadata:
-        name: "{{ meta.name }}"
-        namespace: "{{ meta.namespace }}"
-        labels:
-          app: "{{ meta.name }}"
-      spec:
-        output:
-          to:
-            kind: ImageStreamTag
-            name: "{{ meta.name }}:latest"
-        source:
-          contextDir: "{{ context_dir }}"
-          git:
-            ref: "{{ git_ref }}"
-            uri: "{{ git_uri }}"
-          type: Git
-        strategy:
-          sourceStrategy:
-            env:
-              - name: APP_FILE
-                value: "{{ app_file | default('app.py') }}"
-            from:
-              kind: DockerImage
-              name: "{{ build_image }}"
-          type: Source
-        triggers:
-        - imageChange: {}
-          type: ImageChange
-        - type: ConfigChange
-        - github:
-            secret: "{{ meta.name }}"
-          type: GitHub
-        - generic:
-            secret: "{{ meta.name }}"
-          type: Generic
+    definition: "{{ lookup('template', 'buildconfig.yaml.j2') }}"
 
 - name: determine build completion
   vars:
@@ -103,69 +65,7 @@
   when: (state == "present") and (build_completed | default(false) == true)
   k8s:
     state: "{{ state }}"
-    definition:
-      apiVersion: batch/v1
-      kind: Job
-      metadata:
-        name: "{{ meta.name }}"
-        namespace: "{{ meta.namespace }}"
-        labels:
-          app: "{{ meta.name }}"
-      spec:
-        completions: "{{ completions }}"
-        parallelism: 1
-        selector:
-          radanalytics.io/Job: "{{ meta.name }}"
-        template:
-          metadata:
-            labels:
-              radanalytics.io/Job: "{{ meta.name }}"
-              app: "{{ meta.name }}"
-            name: "{{ meta.name }}"
-          spec:
-            containers:
-            - name: "{{ meta.name }}"
-              env:
-              - name: APPLICATION_NAME
-                value: "{{ meta.name }}"
-              - name: DRIVER_HOST
-                value: "{{ meta.name }}-headless"
-              - name: OSHINKO_CLUSTER_NAME
-                value: "{{ oshinko_cluster_name }}"
-              - name: APP_ARGS
-                value: "{{ app_args }}"
-              - name: SPARK_OPTIONS
-                value: "{{ spark_options|join(' ') }}"
-              - name: APP_MAIN_CLASS
-                value: "{{ app_main_class }}"
-              - name: OSHINKO_DEL_CLUSTER
-                value: "{{ delete_cluster }}"
-              - name: APP_EXIT
-                value: "{{ app_exit }}"
-              - name: OSHINKO_NAMED_CONFIG
-                value: "{{ cluster_config }}"
-              - name: OSHINKO_SPARK_DRIVER_CONFIG
-                value: "{{ driver_config }}"
-              - name: SPARK_URL_OVERRIDE
-                value: "{% if spark_url_override == None %}spark://{{ meta.name }}-spark:7077{% else %}{{ spark_url_override }}{% endif %}"
-              - name: POD_NAME
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.name
-              image: "{{ imagestream_repository }}:latest"
-              volumeMounts:
-              - mountPath: /etc/podinfo
-                name: podinfo
-                readOnly: false
-            restartPolicy: Never
-            serviceAccountName: oshinko-oshizushi
-            volumes:
-            - downwardAPI:
-              items:
-              - fieldRef:
-                fieldPath: metadata.labels
-                path: labels
-              name: podinfo
+    definition: "{{ lookup('template', 'job.yaml.j2') }}"
 
 - name: create headless service
   k8s:

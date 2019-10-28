@@ -1,0 +1,66 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ meta.name }}"
+  namespace: "{{ meta.namespace }}"
+  labels:
+    app: "{{ meta.name }}"
+spec:
+  completions: {{ completions }}
+  parallelism: 1
+  selector:
+    radanalytics.io/Job: "{{ meta.name }}"
+  template:
+    metadata:
+      labels:
+        radanalytics.io/Job: "{{ meta.name }}"
+        app: "{{ meta.name }}"
+      name: "{{ meta.name }}"
+    spec:
+      containers:
+      - name: "{{ meta.name }}"
+        env:
+        - name: APPLICATION_NAME
+          value: "{{ meta.name }}"
+        - name: DRIVER_HOST
+          value: "{{ meta.name }}-headless"
+        - name: OSHINKO_CLUSTER_NAME
+          value: "{{ oshinko_cluster_name }}"
+        - name: APP_ARGS
+          value: "{{ app_args }}"
+        - name: SPARK_OPTIONS
+          value: "{{ spark_options|join(' ') }}"
+{% if (build_type|lower == 'java') or (build_type|lower == 'scala') %}
+        - name: APP_MAIN_CLASS
+          value: "{{ app_main_class }}"
+{% endif %}
+        - name: OSHINKO_DEL_CLUSTER
+          value: "{{ delete_cluster }}"
+        - name: APP_EXIT
+          value: "{{ app_exit }}"
+        - name: OSHINKO_NAMED_CONFIG
+          value: "{{ cluster_config }}"
+        - name: OSHINKO_SPARK_DRIVER_CONFIG
+          value: "{{ driver_config }}"
+        - name: SPARK_URL_OVERRIDE
+          value: "{% if spark_url_override == None %}spark://{{ meta.name }}-spark:7077{% else %}{{ spark_url_override }}{% endif %}"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: "{{ imagestream_repository }}:latest"
+        volumeMounts:
+        - mountPath: /etc/podinfo
+          name: podinfo
+          readOnly: false
+      restartPolicy: Never
+      serviceAccountName: oshinko-oshizushi
+      volumes:
+      - downwardAPI:
+        items:
+        - fieldRef:
+          fieldPath: metadata.labels
+          path: labels
+        name: podinfo
+

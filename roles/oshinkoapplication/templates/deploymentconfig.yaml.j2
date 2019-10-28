@@ -8,7 +8,7 @@ metadata:
     app: "{{ meta.name }}"
     deploymentConfig: "{{ meta.name }}"
 spec:
-  replicas: "{{ size }}"
+  replicas: {{ size }}
   selector:
     app: "{{ meta.name }}"
   template:

@@ -37,9 +37,14 @@ for the application. You will also see a Spark cluster being deployed.
 **Validation**
 
 To check that the application is working, you can run the following commands
-to expose an external route and then access the application for an estimate
+to create and expose an external route and then access the application for an estimate
 of the value for Pi. For a longer description of this application and its
 functionality, please see [this tutorial](https://radanalytics.io/my-first-radanalytics-app.html).
+
+1. Create a service
+   ```
+   oc create service clusterip sparkpi --tcp=8080
+   ```
 
 1. Expose the service
    ```

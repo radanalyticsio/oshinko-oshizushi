@@ -1,0 +1,12 @@
+apiVersion: radanalytics.io/v1alpha1
+kind: OshinkoJob
+metadata:
+  name: sparkpi
+spec:
+  build-type: "java"
+  git-uri: "https://github.com/radanalyticsio/s2i-integration-test-apps.git"
+  app-file: "java-spark-pi-1.0-SNAPSHOT-jar-with-dependencies.jar"
+  spark-options:
+    - "--conf spark.driver.bindAddress=0.0.0.0"
+    - "--conf spark.driver.blockManager.port=7079"
+    - "--conf spark.driver.port=7078"

@@ -3,6 +3,11 @@
 An operator that encapsulates the source-to-image process for creating Apache
 Spark based Deployments and Jobs within OpenShift.
 
+## Dependencies
+
+This operator requires that you also have the
+[Apache Spark Operator](https://operatorhub.io/operator/radanalytics-spark) installed.
+
 ## Quickstart
 
 **Prerequisites**

@@ -33,7 +33,7 @@ This operator requires that you also have the
 
 1. Create an application.
    ```
-   oc apply -f examples/sparkpi-python27-application.yaml
+   oc apply -f examples/oshinkoapplication-sparkpi-python27.yaml
    ```
 
 You should now see the operator creating an ImageStream, Build, and Deployment

@@ -18,3 +18,4 @@ build_image: null
 delete_job: false
 sbt_args: null
 sbt_args_append: null
+spark_image: null

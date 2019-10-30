@@ -35,11 +35,11 @@ spec:
       from:
         kind: DockerImage
 {% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
-        name: "docker.io/radanalyticsio/radanalytics-pyspark:stable"
+        name: "quay.io/radanalyticsio/oshinko-s2i-pyspark:latest"
 {% elif (build_type|lower == 'java') %}
-        name: "docker.io/radanalyticsio/radanalytics-java-spark:stable"
+        name: "quay.io/radanalyticsio/oshinko-s2i-java-spark:latest"
 {% elif (build_type|lower == 'scala') %}
-        name: "docker.io/radanalyticsio/radanalytics-scala-spark:stable"
+        name: "quay.io/radanalyticsio/oshinko-s2i-scala-spark:latest"
 {% else %}
         name: "{{ build_image }}"
 {% endif %}

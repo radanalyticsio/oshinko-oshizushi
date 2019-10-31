@@ -6,8 +6,3 @@ spec:
   build-type: "java"
   git-uri: "https://github.com/radanalyticsio/tutorial-sparkpi-java-spring.git"
   app_file: "SparkPiBoot-0.0.1-SNAPSHOT.jar"
-  spark-options:
-    - "--conf spark.driver.bindAddress=0.0.0.0"
-    - "--conf spark.driver.blockManager.port=7079"
-    - "--conf spark.driver.port=7078"
-

@@ -9,8 +9,3 @@ spec:
   app_file: "tutorial-sparkpi-scala-scalatra-assembly-0.0.1-SNAPSHOT.jar"
   sbt_args: "clean assembly"
   app_args: "-Xms1024M, -Xmx2048M, -XX:MaxMetaspace=1024M"
-  spark-options:
-    - "--conf spark.driver.bindAddress=0.0.0.0"
-    - "--conf spark.driver.blockManager.port=7079"
-    - "--conf spark.driver.port=7078"
-

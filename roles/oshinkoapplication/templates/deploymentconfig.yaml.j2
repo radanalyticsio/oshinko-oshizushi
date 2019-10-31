@@ -27,7 +27,11 @@ spec:
         - name: APP_ARGS
           value: "{{ app_args }}"
         - name: SPARK_OPTIONS
-          value: "{{ spark_options|join(' ') }}"
+{% if spark_options == None %}
+          value: "{{ spark_default_options }}"
+{% else %}
+          value: "{{ spark_default_options }} {{ spark_options|join(' ') }}"
+{% endif %}
 {% if (build_type|lower == 'java') or (build_type|lower == 'scala') %}
         - name: APP_MAIN_CLASS
           value: "{{ app_main_class }}"

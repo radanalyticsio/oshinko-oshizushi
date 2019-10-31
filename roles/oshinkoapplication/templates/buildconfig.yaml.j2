@@ -21,7 +21,7 @@ spec:
     sourceStrategy:
       env:
         - name: APP_FILE
-{% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
+{% if (build_type|lower == 'python') or (build_type|lower == 'python27') or (build_type|lower == 'python36') %}
           value: "{{ app_file | default('app.py') }}"
 {% else %}
           value: "{{ app_file }}"
@@ -36,6 +36,8 @@ spec:
         kind: DockerImage
 {% if (build_type|lower == 'python') or (build_type|lower == 'python27') %}
         name: "quay.io/radanalyticsio/oshinko-s2i-pyspark:latest"
+{% elif (build_type|lower == 'python36') %}
+        name: "quay.io/radanalyticsio/oshinko-s2i-pyspark-py36:latest"
 {% elif (build_type|lower == 'java') %}
         name: "quay.io/radanalyticsio/oshinko-s2i-java-spark:latest"
 {% elif (build_type|lower == 'scala') %}

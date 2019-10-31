@@ -6,7 +6,3 @@ spec:
   build-type: "scala"
   git-uri: "https://github.com/radanalyticsio/s2i-integration-test-apps.git"
   app-file: "sparkpi_2.11-0.1.jar"
-  spark-options:
-    - "--conf spark.driver.bindAddress=0.0.0.0"
-    - "--conf spark.driver.blockManager.port=7079"
-    - "--conf spark.driver.port=7078"

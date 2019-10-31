@@ -18,3 +18,4 @@ app_file: null
 sbt_args: null
 sbt_args_append: null
 executors: 1
+spark_image: null

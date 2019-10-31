@@ -3,17 +3,7 @@
   when: spark_url_override == None
   k8s:
     state: "{{ state }}"
-    definition:
-      apiVersion: radanalytics.io/v1
-      kind: SparkCluster
-      metadata:
-        name: "{{ meta.name }}-spark"
-        namespace: "{{ meta.namespace }}"
-      spec:
-        worker:
-          instances: "{{ executors }}"
-        master:
-          instances: "1"
+    definition: "{{ lookup('template', 'sparkcluster.yaml.j2') }}"
 
 - name: create imagestream
   k8s:

@@ -20,3 +20,4 @@ sbt_args_append: null
 executors: 1
 spark_image: null
 spark_default_options: "--conf spark.driver.bindAddress=0.0.0.0 --conf spark.driver.blockManager.port=7079 --conf spark.driver.port=7078"
+environment_variables: []

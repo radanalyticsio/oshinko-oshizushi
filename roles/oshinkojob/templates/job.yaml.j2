@@ -53,6 +53,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+{% for variable in environment_variables %}
+        - name: "{{ variable.name }}"
+          value: "{{ variable.value }}"
+{% endfor %}
         image: "{{ imagestream_repository }}:latest"
         volumeMounts:
         - mountPath: /etc/podinfo

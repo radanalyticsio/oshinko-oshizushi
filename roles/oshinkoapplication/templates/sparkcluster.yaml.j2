@@ -1,4 +1,24 @@
 ---
+{% if spark_operator_use_configmap %}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ meta.name }}-spark"
+  namespace: "{{ meta.namespace }}"
+  labels:
+    radanalytics.io/kind: SparkCluster
+data:
+  config: |-
+{% if spark_image %}
+    customImage: "{{ spark_image }}"
+{% elif build_type|lower == 'python36' %}
+    customImage: "quay.io/radanalyticsio/openshift-spark-py36:2.4-latest"
+{% endif %}
+    worker:
+      instances: "{{ executors }}"
+    master:
+      instances: "1"
+{% else %}
 apiVersion: radanalytics.io/v1
 kind: SparkCluster
 metadata:
@@ -14,3 +34,4 @@ spec:
     instances: "{{ executors }}"
   master:
     instances: "1"
+{% endif %}

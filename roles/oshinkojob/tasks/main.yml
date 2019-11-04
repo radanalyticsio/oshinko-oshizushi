@@ -85,10 +85,4 @@
   when: (job_completed | default(false) == true) and (spark_url_override == None)
   k8s:
     state: "absent"
-    definition:
-      apiVersion: radanalytics.io/v1
-      kind: SparkCluster
-      metadata:
-        name: "{{ meta.name }}-spark"
-        namespace: "{{ meta.namespace }}"
-      spec: {}
+    definition: "{{ lookup('template', 'sparkcluster.yaml.j2') }}"

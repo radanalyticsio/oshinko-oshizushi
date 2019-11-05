@@ -28,7 +28,7 @@ spec:
 {% endif %}
 {% if git_ssl_verify|lower == 'false' %}
         - name: GIT_SSL_NO_VERIFY
-          value: true
+          value: 'true'
 {% endif %}
 {% if build_type|lower == 'scala' %}
         - name: SBT_ARGS
